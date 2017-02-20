@@ -1,0 +1,29 @@
+---
+- hosts: all
+  tasks:
+    - name: Install openvpn-update-systemd-resolved
+      aur:
+        name: openvpn-update-systemd-resolved
+    - name: Get the list of OpenVPN client configurations
+      raw: find /etc/openvpn/client -type f -name "*.conf"
+      register: openvpn_clients
+      become: yes
+      become_user: root
+    - name: Add up hook to OpenVPN config files
+      lineinfile:
+        dest: '{{ item }}'
+        backup: yes
+        line: up /etc/openvpn/update-systemd-resolved
+        regexp: '^#?\s*up\s+'
+      with_items: '{{ openvpn_clients.stdout_lines }}'
+      become: yes
+      become_user: root
+    - name: Add down hook to OpenVPN config files
+      lineinfile:
+        dest: '{{ item }}'
+        backup: yes
+        line: down /etc/openvpn/update-systemd-resolved
+        regexp: '^#?\s*down\s+'
+      with_items: '{{ openvpn_clients.stdout_lines }}'
+      become: yes
+      become_user: root
