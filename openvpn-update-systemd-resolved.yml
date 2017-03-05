@@ -1,5 +1,7 @@
 ---
-- hosts: all
+- hosts: localhost
+  roles:
+    - aur
   tasks:
     - name: Install openvpn-update-systemd-resolved
       aur:

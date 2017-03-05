@@ -1,3 +1,6 @@
 [submodule "library/modules/aur"]
 	path = library/modules/aur
 	url = https://github.com/cdown/ansible-aur.git
+[submodule "roles/aur"]
+	path = roles/aur
+	url = https://gitlab.com/flungo-ansible/aur.git
