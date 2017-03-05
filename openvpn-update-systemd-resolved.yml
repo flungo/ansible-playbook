@@ -10,7 +10,6 @@
       raw: find /etc/openvpn/client -type f -name "*.conf"
       register: openvpn_clients
       become: yes
-      become_user: root
     - name: Add up hook to OpenVPN config files
       lineinfile:
         dest: '{{ item }}'
@@ -19,7 +18,6 @@
         regexp: '^#?\s*up\s+'
       with_items: '{{ openvpn_clients.stdout_lines }}'
       become: yes
-      become_user: root
     - name: Add down hook to OpenVPN config files
       lineinfile:
         dest: '{{ item }}'
@@ -28,4 +26,3 @@
         regexp: '^#?\s*down\s+'
       with_items: '{{ openvpn_clients.stdout_lines }}'
       become: yes
-      become_user: root
